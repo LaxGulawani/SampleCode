@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Portal/.vs
+/Portal/Portal.Application/bin/Debug/netcoreapp2.0
+/Portal/Portal.Application/obj
+/Portal/Portal.Core/bin/Debug/netcoreapp2.0
+/Portal/Portal.Core/obj
+/Portal/Portal.Infrastructure/bin/Debug/netcoreapp2.0
+/Portal/Portal.Infrastructure/obj
+/Portal/Portal.Web/bin/Debug/netcoreapp2.0
+/Portal/Portal.Web/obj/Debug/netcoreapp2.0
+/Portal/Portal.Web/obj
