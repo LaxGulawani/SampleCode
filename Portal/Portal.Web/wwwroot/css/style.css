@@ -1,0 +1,14 @@
+﻿body, #headerwrap h1, #headerwrap h2, #headerwrap h3, #headerwrap h4, #headerwrap p, #headerwrap div {
+    text-align: left;
+    color: white;
+}
+ 
+.alert-info {
+    color: #3a87ad !important;
+    background-color: white;
+    border-color: #bce8f1;
+}
+
+.text-danger {
+    color: #F45403 !important;
+}

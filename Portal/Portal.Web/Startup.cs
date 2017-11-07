@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Portal.Application;
+using Portal.Core;
 using Portal.Infrastructure;
+using Portal.Infrastructure.Repository;
 using Portal.Web.Data;
 using Portal.Web.Services;
 
@@ -31,6 +34,9 @@ namespace Portal.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<ICompanyAppService, CompanyAppService>();
+            services.AddTransient<IRepository<Company>, Repository<Company>>();
 
             services.AddMvc();
         }
