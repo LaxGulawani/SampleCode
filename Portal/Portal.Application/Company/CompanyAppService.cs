@@ -12,43 +12,56 @@ namespace Portal.Application
     public class CompanyAppService : ICompanyAppService
     {
         private readonly IRepository<Company> _companyRepository;
-
+        private readonly IMapper iMapper;
         public CompanyAppService(IRepository<Company> companyRepository)
         {
             _companyRepository = companyRepository;
-        }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Company, CompanyListDto>();
+                cfg.CreateMap<Company, CompanyDto>();
+                cfg.CreateMap<CompanyDto, Company>();
+            });
+
+            iMapper = config.CreateMapper();
         }
 
         public async Task<List<CompanyListDto>> GetAllAsync()
         {
             var companies = await _companyRepository.GetAllAsync();
-            var config = new MapperConfiguration(cfg => {
-                    cfg.CreateMap<Company, CompanyListDto>();
-            });
-            IMapper iMapper = config.CreateMapper();
-
-            List<CompanyListDto> companyListDtos = iMapper.Map<List<CompanyListDto>>(companies);
-
+            List<CompanyListDto> companyListDtos = new List<CompanyListDto>();
+            if (companies != null)
+                companyListDtos = iMapper.Map<List<CompanyListDto>>(companies);
             return companyListDtos;
         }
 
-        public Task<Company> GetAsync(int companyId)
+        public async Task<CompanyDto> GetAsync(int companyId)
         {
-            throw new NotImplementedException();
+            Company company = await _companyRepository.GetAsync(companyId);
+            CompanyDto companyDto = iMapper.Map<CompanyDto>(company);
+            return companyDto;
         }
 
-        public Task<Company> InsertAsync(Company company)
+        public async Task<CompanyDto> SaveAsync(CompanyDto companyDto)
         {
-            throw new NotImplementedException();
+            Company company = iMapper.Map<Company>(companyDto);
+            if (company.Id > 0)
+                await _companyRepository.UpdateAsync(company, company.Id);
+            else
+                await _companyRepository.InsertAsync(company);
+            return companyDto;
         }
-
-        public Task<Company> UpdateAsync(Company company, int companyId)
-        {
-            throw new NotImplementedException();
+        
+        public async Task Delete(int id)
+        {            
+            Company company = await _companyRepository.GetAsync(id);
+            if (company != null)
+            {
+                company.IsDeleted = true;
+                company.DeletionTime = DateTime.Now;
+                _companyRepository.Delete(company);
+            }
         }
     }
 }

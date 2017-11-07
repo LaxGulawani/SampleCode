@@ -12,3 +12,8 @@
 .text-danger {
     color: #F45403 !important;
 }
+
+h4 {
+    font-weight: bold;
+    text-transform: uppercase;
+}

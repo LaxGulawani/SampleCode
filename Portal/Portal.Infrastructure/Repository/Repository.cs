@@ -9,21 +9,24 @@ using System.Threading.Tasks;
 
 namespace Portal.Infrastructure.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity: class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly ApplicationDbContext _context;
         internal DbSet<TEntity> DbSet;
 
         public Repository(ApplicationDbContext context)
         {
-            _context = context;
+            _context = context;            
+            DbSet = _context.Set<TEntity>();            
         }
 
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             IQueryable<TEntity> query = DbSet;
-            return await Task.Run(() => (query.ToList()));
+            if (query != null)
+                return await Task.Run(() => (query.ToList()));
+            return null;
         }
 
         public IEnumerable<TEntity> Get(
@@ -50,8 +53,7 @@ namespace Portal.Infrastructure.Repository
 
         public virtual async Task<TEntity> InsertAsync(TEntity entity)
         {
-            DbSet.Add(entity);
-
+            DbSet.Add(entity);            
             await _context.SaveChangesAsync();
 
             return _context.Entry(entity).Entity;
@@ -73,21 +75,25 @@ namespace Portal.Infrastructure.Repository
             }
 
         }
-        
 
-        public void Delete(TEntity entityToDelete)
+        public async void Delete(TEntity entityToDelete)
         {
-            DbSet.Remove(entityToDelete);
+            DbSet.Update(entityToDelete);
+            await _context.SaveChangesAsync();            
         }
 
-        public Task<TEntity> GetAsync(int entityId)
+        public async Task<TEntity> GetAsync(int entityId)
         {
-            throw new NotImplementedException();
+            TEntity tEntity=await DbSet.FindAsync(entityId);
+            return tEntity;
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
+        public async void Delete(int id)
+        { 
+
+            TEntity entityToDelete = await DbSet.FindAsync(id);            
+            DbSet.Remove(entityToDelete);   
+            await _context.SaveChangesAsync();
         }
     }
 }
