@@ -3,11 +3,13 @@
 @{
     ViewData["Title"] = "Index";
 }
+<environment include="Development">
+    <script src="~/view-resources/company/index.js"></script>
+</environment>
 <div class="row">
     <div class="col-md-12 pull-right" style="text-align:right">
-        <button type="button" id="addemployee" class="btn btn-info" data-toggle="modal" data-target="#CreateEditCompany">Add Company</button>
-        @Html.ActionLink("Add Company", "Create", "Company")
-    </div>
+        <button type="button" id="addemployee" onclick="createCompany()" class="btn btn-info" data-toggle="modal" data-target="#CreateEditCompany">Add Company</button>
+        </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -26,15 +28,15 @@
                 <tbody>
                     @foreach (CompanyListDto company in Model)
                     {
-                    <tr>
-                        <td>
-                            @company.Name
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", "Company", new { companyId = company.Id }) |
-                            @Html.ActionLink("Delete", "Delete", "Company", new { companyId = company.Id })
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                @company.Name
+                            </td>
+                            <td>
+                                <a href="#" onclick="editCompany(@company.Id)" data-toggle="modal" data-target="#CreateEditCompany">Edit</a>|
+                                @Html.ActionLink("Delete", "Delete", "Company", new { companyId = company.Id })
+                            </td>
+                        </tr>
 
                     }
                 </tbody>
@@ -43,49 +45,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="CreateEditCompany" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Create / Edit Employee</h4>
-            </div>
-            <div class="modal-body">
-
-                <p>Some text in the modal.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
+<div class="modal fade" role="dialog" id="CreateEditCompany">
+    <div id="CreateEditCompanyDialog" class="modal-dialog">
     </div>
 </div>
-
-<script type="text/javascript">
-    $('#addemployee').click(function (e) {
-    e.preventDefault(); // <------------------ stop default behaviour of button
-    var element = this;
-    $.ajax({
-        url: "/Company/Create",
-        type: "POST",
-        //dataType: "json",
-        //traditional: true,
-        //contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            if (data.status == "Success") {
-
-                alert("Done");
-                $(element).closest("form").submit(); //<------------ submit form
-            } else {
-                alert("Error occurs on the Database level!");
-            }
-        },
-        error: function () {
-            alert("An error has occured!!!");
-        }
-    });
-});
-</script>

@@ -1,8 +1,8 @@
-﻿body, #headerwrap h1, #headerwrap h2, #headerwrap h3, #headerwrap h4, #headerwrap p, #headerwrap div {
+﻿body, .body-content h1, .body-content h2, .body-content h3, .body-content h4, .body-content p, .body-content div {
     /*text-align: left;*/
     color: white;
 }
- 
+
 .alert-info {
     color: #3a87ad !important;
     background-color: white;
@@ -17,6 +17,16 @@ h4 {
     font-weight: bold;
     text-transform: uppercase;
 }
-.modal, .modal .modal-header h4, .modal .modal-body, .modal .modal-body p {
+
+.modal-dialog, .modal .modal-header h4, .modal .modal-body, .modal .modal-body p {
     color: black !important;
+}
+
+ .modal-content {
+    background-color: #34495e;
+}
+
+.modal-header {
+    font-weight: bold;
+    font-size: 18px;
 }

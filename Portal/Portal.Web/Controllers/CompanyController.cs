@@ -35,14 +35,14 @@ namespace Portal.Web.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View("CreateOrUpdate", new CompanyDto());
+            return PartialView("_CreateOrUpdate", new CompanyDto());
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int companyId)
         {
             CompanyDto company = await _companyAppService.GetAsync(companyId);
-            return View("CreateOrUpdate", company);
+            return PartialView("_CreateOrUpdate", company);
         }
 
 
@@ -54,7 +54,7 @@ namespace Portal.Web.Controllers
                 await _companyAppService.SaveAsync(companyDto, userName);
                 return RedirectToAction("Index");
             }
-            return View(companyDto);
+            return PartialView("_CreateOrUpdate", companyDto);
         }
         public ActionResult CreateOrupdate()
         {
