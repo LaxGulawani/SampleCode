@@ -1,5 +1,5 @@
 ﻿body, #headerwrap h1, #headerwrap h2, #headerwrap h3, #headerwrap h4, #headerwrap p, #headerwrap div {
-    text-align: left;
+    /*text-align: left;*/
     color: white;
 }
  
@@ -16,4 +16,7 @@
 h4 {
     font-weight: bold;
     text-transform: uppercase;
+}
+.modal, .modal .modal-header h4, .modal .modal-body, .modal .modal-body p {
+    color: black !important;
 }
