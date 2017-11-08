@@ -9,9 +9,11 @@ using System.Web;
 using Microsoft.AspNetCore.Identity;
 using Portal.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Portal.Web.Controllers
 {
+    [Authorize]
     public class CompanyController : Controller
     {
         private readonly ICompanyAppService _companyAppService;
