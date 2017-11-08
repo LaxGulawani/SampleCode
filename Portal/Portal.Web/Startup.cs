@@ -11,6 +11,8 @@ using Portal.Infrastructure.Repository;
 using Portal.Web.Data;
 using Portal.Web.Services;
 using Microsoft.AspNetCore.Http;
+using Portal.Application.HR;
+using Portal.Core.HR;
 
 namespace Portal.Web
 {
@@ -37,8 +39,16 @@ namespace Portal.Web
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            //AppServices
             services.AddTransient<ICompanyAppService, CompanyAppService>();
+            services.AddTransient<IEmployeeAppService, EmployeeAppService>();
+
+            //Repositories
             services.AddTransient<IRepository<Company>, Repository<Company>>();
+            services.AddTransient<IRepository<Employee>, Repository<Employee>>();
+            services.AddTransient<IRepository<Designation>, Repository<Designation>>();
+            services.AddTransient<IRepository<ProfilePhoto>, Repository<ProfilePhoto>>();
+            services.AddTransient<IRepository<EmployeeDesignation>, Repository<EmployeeDesignation>>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

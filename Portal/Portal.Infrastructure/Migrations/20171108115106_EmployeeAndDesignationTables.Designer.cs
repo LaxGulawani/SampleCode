@@ -11,9 +11,10 @@ using System;
 namespace Portal.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171108115106_EmployeeAndDesignationTables")]
+    partial class EmployeeAndDesignationTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -311,6 +312,8 @@ namespace Portal.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<int?>("EmployeeId");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -335,6 +338,8 @@ namespace Portal.Infrastructure.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -410,6 +415,13 @@ namespace Portal.Infrastructure.Migrations
                     b.HasOne("Portal.Core.HR.Employee")
                         .WithMany("ProfilePhotos")
                         .HasForeignKey("ProfilePhotoId");
+                });
+
+            modelBuilder.Entity("Portal.Infrastructure.ApplicationUser", b =>
+                {
+                    b.HasOne("Portal.Core.HR.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
                 });
 #pragma warning restore 612, 618
         }
