@@ -42,7 +42,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="smothscroll">Home</a></li>
-                    <li><a asp-area="" asp-controller="Company" asp-action="Index" class="smothscroll">Company</a></li>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Company" asp-action="Index" class="smothscroll">Company</a></li>
+                    }
                     <li><a asp-area="" asp-controller="Home" asp-action="About" class="smothscroll">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="smothscroll">Contact</a></li>
                 </ul>
@@ -53,7 +56,7 @@
     <div id="headerwrap">
         <div class="container body-content">
             @RenderBody()
-            <hr class="row"/>
+            <hr class="row" />
             <footer class="row">
                 <p>&copy; 2017 - Portal.Web</p>
             </footer>

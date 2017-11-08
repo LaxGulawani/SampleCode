@@ -9,8 +9,8 @@ namespace Portal.Application
     {
         Task<List<CompanyListDto>> GetAllAsync();
         Task<CompanyDto> GetAsync(int companyId);
-        Task<CompanyDto> SaveAsync(CompanyDto company);
-        Task Delete(int id);
+        Task<CompanyDto> SaveAsync(CompanyDto company,string userName);
+        Task Delete(int id,string userName);
 
     }
 }

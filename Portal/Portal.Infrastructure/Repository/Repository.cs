@@ -23,7 +23,7 @@ namespace Portal.Infrastructure.Repository
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            IQueryable<TEntity> query = DbSet;
+            IQueryable<TEntity> query = DbSet;                     
             if (query != null)
                 return await Task.Run(() => (query.ToList()));
             return null;
@@ -76,7 +76,7 @@ namespace Portal.Infrastructure.Repository
 
         }
 
-        public async void Delete(TEntity entityToDelete)
+        public async Task Delete(TEntity entityToDelete)
         {
             DbSet.Update(entityToDelete);
             await _context.SaveChangesAsync();            
@@ -84,7 +84,7 @@ namespace Portal.Infrastructure.Repository
 
         public async Task<TEntity> GetAsync(int entityId)
         {
-            TEntity tEntity=await DbSet.FindAsync(entityId);
+            TEntity tEntity=await DbSet.FindAsync(entityId);            
             return tEntity;
         }
 

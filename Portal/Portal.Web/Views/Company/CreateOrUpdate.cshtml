@@ -12,13 +12,8 @@
 }
 
 <div class="row">
-    <div class="form-group">
-        <div class="col-md-8">
-            <h4>@PageTitle @Model.Name</h4>
-        </div>
-        <div class="col-md-4" style="text-align:right;margin-top: 10px">
-            @Html.ActionLink("Back", "", "Company")
-        </div>
+    <div class="page-header">
+        @PageTitle @Model.Name
     </div>
 </div>
 <div class="row">
@@ -37,6 +32,7 @@
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-default">@PageTitle</button>
+            <button type="submit"class="btn btn-default" asp-action="" asp-controller="Company">Back</button>
         </div>
     </form>
 </div>

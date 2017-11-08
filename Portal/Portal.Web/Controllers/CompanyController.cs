@@ -5,16 +5,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Portal.Application;
 using Portal.Application.Dto;
+using System.Web;
+using Microsoft.AspNetCore.Identity;
+using Portal.Infrastructure;
+using Microsoft.AspNetCore.Http;
 
 namespace Portal.Web.Controllers
 {
     public class CompanyController : Controller
     {
         private readonly ICompanyAppService _companyAppService;
+        private readonly string userName = String.Empty;
 
-        public CompanyController(ICompanyAppService companyAppService)
+        public CompanyController(ICompanyAppService companyAppService, IHttpContextAccessor httpContextAccessor)
         {
-            _companyAppService = companyAppService;
+            _companyAppService = companyAppService;           
+            if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+                userName = httpContextAccessor.HttpContext.User.Identity.Name;
         }
 
         public async Task<IActionResult> Index()
@@ -41,20 +48,20 @@ namespace Portal.Web.Controllers
         public async Task<ActionResult> CreateOrUpdate(CompanyDto companyDto)
         {
             if (ModelState.IsValid)
-            {
-                await _companyAppService.SaveAsync(companyDto);
+            {              
+                await _companyAppService.SaveAsync(companyDto, userName);
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(companyDto);
         }
         public ActionResult CreateOrupdate()
         {
             return View();
         }
 
-        public ActionResult Delete(int companyId)
+        public async Task<ActionResult> Delete(int companyId)
         {
-            _companyAppService.Delete(companyId);
+            await _companyAppService.Delete(companyId, userName);
             return RedirectToAction("Index");
         }
     }

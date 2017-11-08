@@ -10,6 +10,7 @@ using Portal.Infrastructure;
 using Portal.Infrastructure.Repository;
 using Portal.Web.Data;
 using Portal.Web.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Portal.Web
 {
@@ -37,7 +38,9 @@ namespace Portal.Web
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<ICompanyAppService, CompanyAppService>();
-            services.AddTransient<IRepository<Company>, Repository<Company>>();        
+            services.AddTransient<IRepository<Company>, Repository<Company>>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddMvc();            
         }
