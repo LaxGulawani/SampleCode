@@ -1,0 +1,39 @@
+﻿@using  Portal.Application.Dto
+@model CompanyDto
+@{
+    ViewData["Title"] = "CreateOrUpdate";
+
+    string PageTitle = "Save";
+    if (Model.Id > 0)
+    {
+        PageTitle = "Update";
+
+    }
+}
+
+<div class="modal-content col-md-12">
+    <form asp-action="CreateOrUpdate" method="post">
+        <div class="modal-header">
+            @PageTitle @Model.Name
+        </div>
+        <div class="modal-body">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" />
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" required/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LegalName"></label>
+                <input asp-for="LegalName" class="form-control" required />
+                <span asp-validation-for="LegalName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group modal-footer">
+            <button type="submit" class="btn btn-default">@PageTitle</button>
+            <button type="submit" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+
+</div>

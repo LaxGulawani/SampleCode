@@ -42,6 +42,10 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index" class="smothscroll">Home</a></li>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Company" asp-action="Index" class="smothscroll">Company</a></li>
+                    }
                     <li><a asp-area="" asp-controller="Home" asp-action="About" class="smothscroll">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact" class="smothscroll">Contact</a></li>
                 </ul>
@@ -52,8 +56,8 @@
     <div id="headerwrap">
         <div class="container body-content">
             @RenderBody()
-            <hr />
-            <footer>
+            <hr class="row" />
+            <footer class="row">
                 <p>&copy; 2017 - Portal.Web</p>
             </footer>
         </div>
@@ -85,10 +89,8 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            debugger;
-            $('li').on('click', function () {
-                debugger;
-                $('li').removeClass('active');
+            $('.navbar-nav li').on('click', function () {
+                $('.navbar-nav li').removeClass('active');
                 $(this).toggleClass('active');
             });
         });

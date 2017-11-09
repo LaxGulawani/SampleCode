@@ -11,6 +11,6 @@ namespace Portal.Infrastructure.Repository
         Task<TEntity> GetAsync(int entityId);
         Task<TEntity> InsertAsync(TEntity entity);
         Task<TEntity> UpdateAsync(TEntity entity, int entityId);
-        void Delete(int id);
+        Task Delete(TEntity entityToDelete);
     }
 }

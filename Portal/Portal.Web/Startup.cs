@@ -10,6 +10,7 @@ using Portal.Infrastructure;
 using Portal.Infrastructure.Repository;
 using Portal.Web.Data;
 using Portal.Web.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Portal.Web
 {
@@ -26,7 +27,8 @@ namespace Portal.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                );
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -38,7 +40,9 @@ namespace Portal.Web
             services.AddTransient<ICompanyAppService, CompanyAppService>();
             services.AddTransient<IRepository<Company>, Repository<Company>>();
 
-            services.AddMvc();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddMvc();            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
