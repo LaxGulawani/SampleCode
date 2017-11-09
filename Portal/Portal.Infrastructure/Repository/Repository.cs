@@ -9,21 +9,28 @@ using System.Threading.Tasks;
 
 namespace Portal.Infrastructure.Repository
 {
+    /// <summary>
+    /// Generic Repository class implementation
+    /// </summary>
+    /// <typeparam name="TEntity">Generic Class</typeparam>
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
+        /// <summary>
+        /// Application database context 
+        /// </summary>
         private readonly ApplicationDbContext _context;
         internal DbSet<TEntity> DbSet;
 
         public Repository(ApplicationDbContext context)
         {
-            _context = context;            
-            DbSet = _context.Set<TEntity>();            
+            _context = context;
+            DbSet = _context.Set<TEntity>();
         }
 
 
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            IQueryable<TEntity> query = DbSet;                     
+            IQueryable<TEntity> query = DbSet;
             if (query != null)
                 return await Task.Run(() => (query.ToList()));
             return null;
@@ -53,7 +60,7 @@ namespace Portal.Infrastructure.Repository
 
         public virtual async Task<TEntity> InsertAsync(TEntity entity)
         {
-            DbSet.Add(entity);            
+            DbSet.Add(entity);
             await _context.SaveChangesAsync();
 
             return _context.Entry(entity).Entity;
@@ -61,38 +68,30 @@ namespace Portal.Infrastructure.Repository
 
         public virtual async Task<TEntity> UpdateAsync(TEntity entityToUpdate, int entityId)
         {
-            try
-            {
-                DbSet.Update(entityToUpdate);
+            DbSet.Update(entityToUpdate);
 
-                await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-                return _context.Entry(entityToUpdate).Entity;
-            }
-            catch (Exception exception)
-            {
-                throw;
-            }
-
+            return _context.Entry(entityToUpdate).Entity;
         }
 
         public async Task Delete(TEntity entityToDelete)
         {
             DbSet.Update(entityToDelete);
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
         }
 
         public async Task<TEntity> GetAsync(int entityId)
         {
-            TEntity tEntity=await DbSet.FindAsync(entityId);            
+            TEntity tEntity = await DbSet.FindAsync(entityId);
             return tEntity;
         }
 
         public async void Delete(int id)
-        { 
+        {
 
-            TEntity entityToDelete = await DbSet.FindAsync(id);            
-            DbSet.Remove(entityToDelete);   
+            TEntity entityToDelete = await DbSet.FindAsync(id);
+            DbSet.Remove(entityToDelete);
             await _context.SaveChangesAsync();
         }
     }

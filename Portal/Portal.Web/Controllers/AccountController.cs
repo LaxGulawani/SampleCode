@@ -17,6 +17,9 @@ using Portal.Infrastructure;
 
 namespace Portal.Web.Controllers
 {
+    /// <summary>
+    /// Boilerplate code from individual authentication template
+    /// </summary>
     [Authorize]
     [Route("[controller]/[action]")]
     public class AccountController : Controller

@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace Portal.Infrastructure.Repository
 {
+    /// <summary>
+    /// Generic repository interface
+    /// </summary>
+    /// <typeparam name="TEntity">Generic class</typeparam>
     public interface IRepository<TEntity> where TEntity: class
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
