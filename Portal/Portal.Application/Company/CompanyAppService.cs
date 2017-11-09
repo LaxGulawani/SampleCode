@@ -10,14 +10,26 @@ using System.Linq;
 
 namespace Portal.Application
 {
+    /// <summary>
+    /// Company Service class implements the methods to manage the company information
+    /// </summary>
     public class CompanyAppService : ICompanyAppService
     {
+        /// <summary>
+        /// Company repository class to provide data access to company entity
+        /// </summary>
         private readonly IRepository<Company> _companyRepository;
         private readonly IMapper iMapper;
+
+        /// <summary>
+        /// Public Constructor accepts repository injected to it
+        /// </summary>
+        /// <param name="companyRepository">Injected repositry</param>
         public CompanyAppService(IRepository<Company> companyRepository)
         {
             _companyRepository = companyRepository;
 
+            //Configure mapping for automapper
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Company, CompanyListDto>();
@@ -28,6 +40,10 @@ namespace Portal.Application
             iMapper = config.CreateMapper();
         }
 
+        /// <summary>
+        /// Get all active companies
+        /// </summary>
+        /// <returns>List of companies</returns>
         public async Task<List<CompanyListDto>> GetAllAsync()
         {
             var companies = (await _companyRepository.GetAllAsync()).Where(x => x.IsDeleted != true);
@@ -37,6 +53,11 @@ namespace Portal.Application
             return companyListDtos;
         }
 
+        /// <summary>
+        /// Get company of specified Id
+        /// </summary>
+        /// <param name="companyId">Company Id of company you would like to fetch information</param>
+        /// <returns>CompanyDto object</returns>
         public async Task<CompanyDto> GetAsync(int companyId)
         {
             Company company = await _companyRepository.GetAsync(companyId);
@@ -48,9 +69,17 @@ namespace Portal.Application
             return null;
         }
 
+
+        /// <summary>
+        /// Saves Company information to database
+        /// </summary>
+        /// <param name="companyDto">CompanyDto object containing new or existing company</param>
+        /// <param name="userName">UserId</param>
+        /// <returns>Returns CompanyDto object with Id if newly created or same object in case of updation</returns>
         public async Task<CompanyDto> SaveAsync(CompanyDto companyDto, string userName)
         {
             Company company = iMapper.Map<Company>(companyDto);
+            //If company already exists update company
             if (company.Id > 0)
             {
                 company.ModificationTime = DateTime.Now;
@@ -66,6 +95,12 @@ namespace Portal.Application
             return companyDto;
         }
 
+        /// <summary>
+        /// Soft delete specified company record
+        /// </summary>
+        /// <param name="id">Company id, which you would like to mark as deleted</param>
+        /// <param name="userName">userId</param>
+        /// <returns></returns>
         public async Task Delete(int id,string userName)
         {
             Company company = await _companyRepository.GetAsync(id);

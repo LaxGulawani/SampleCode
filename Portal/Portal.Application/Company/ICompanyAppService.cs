@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Portal.Application
 {
+    /// <summary>
+    /// Interface for Company App Service
+    /// </summary>
     public interface ICompanyAppService
     {
         Task<List<CompanyListDto>> GetAllAsync();
